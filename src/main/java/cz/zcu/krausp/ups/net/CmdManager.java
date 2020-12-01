@@ -5,6 +5,22 @@ import cz.zcu.krausp.ups.utils.*;
 public enum  CmdManager {
     INSTANCE;
 
+    public void declaredAttackCorrupted(String playerName) {
+        String cmd = Constants.MSG_PART_SEPARATOR +
+                State.GAME +
+                Constants.MSG_PART_SEPARATOR +
+                GamePhase.ATTACK +
+                Constants.MSG_PART_SEPARATOR +
+                playerName +
+                Constants.MSG_SEPARATOR;
+
+        addCommandForGame(cmd);
+    }
+
+    public void exitLobby() {
+        // TODO disconnect etc.
+    }
+
     public void pong(String uuid) {
         String cmd = Constants.MSG_PART_SEPARATOR +
                 State.PONG +
@@ -20,6 +36,16 @@ public enum  CmdManager {
                 State.CONNECTION.label + // World.INSTANCE.currentState +      // TODO ??? replace with current state - for every cmd ???
                 Constants.MSG_PART_SEPARATOR +
                 name +
+                Constants.MSG_SEPARATOR;
+
+        //addCommandToSend(cmd);        // TODO !!!
+        addCommandForGame(cmd);
+    }
+
+    public void surrender() {
+        String cmd = Constants.MSG_PART_SEPARATOR +
+                State.GAME.label +
+                Action.SURRENDER +
                 Constants.MSG_SEPARATOR;
 
         addCommandToSend(cmd);
@@ -39,6 +65,7 @@ public enum  CmdManager {
         addCommandToSend(cmd);
     }
 
+    /*
     public void mulligan() {
         String cmd = Constants.MSG_PART_SEPARATOR +
                 State.GAME.label +
@@ -72,6 +99,7 @@ public enum  CmdManager {
 
         addCommandToSend(cmd);
     }
+     */
 
     public void firstMainPlayCard(int id) {
         String cmd = Constants.MSG_PART_SEPARATOR +
@@ -121,18 +149,20 @@ public enum  CmdManager {
         addCommandToSend(cmd);
     }
 
-    public void setAttackingCreature(int id) {
-        String cmd = Constants.MSG_PART_SEPARATOR +
-                State.GAME +
-                Constants.MSG_PART_SEPARATOR +
-                GamePhase.COMBAT +
-                Constants.MSG_PART_SEPARATOR +
-                Action.ATTACK +
-                Constants.MSG_SEPARATOR +
-                id +
-                Constants.MSG_SEPARATOR;
+    public void setAttackingCreature(Integer[] ids) {
+        for (int id : ids) {
+            String cmd = Constants.MSG_PART_SEPARATOR +
+                    State.GAME +
+                    Constants.MSG_PART_SEPARATOR +
+                    GamePhase.COMBAT +
+                    Constants.MSG_PART_SEPARATOR +
+                    Action.ATTACK +
+                    Constants.MSG_SEPARATOR +
+                    id +
+                    Constants.MSG_SEPARATOR;
 
-        addCommandToSend(cmd);
+            addCommandToSend(cmd);
+        }
     }
 
     public void unsetAttackingCreature(int id) {
@@ -149,13 +179,25 @@ public enum  CmdManager {
         addCommandToSend(cmd);
     }
 
-    public void setAttack() {
+    public void attack() {
         String cmd = Constants.MSG_PART_SEPARATOR +
                 State.GAME +
                 Constants.MSG_PART_SEPARATOR +
                 GamePhase.COMBAT +
                 Constants.MSG_PART_SEPARATOR +
                 Action.ATTACK +
+                Constants.MSG_SEPARATOR;
+
+        addCommandToSend(cmd);
+    }
+
+    public void cancelAttack() {
+        String cmd = Constants.MSG_PART_SEPARATOR +
+                State.GAME +
+                Constants.MSG_PART_SEPARATOR +
+                GamePhase.COMBAT +
+                Constants.MSG_PART_SEPARATOR +
+                Action.CANCELATTACK +
                 Constants.MSG_SEPARATOR;
 
         addCommandToSend(cmd);
@@ -232,4 +274,7 @@ public enum  CmdManager {
         MsgManager.INSTANCE.addMessageToSend(new Message(cmd.length() + cmd));
     }
 
+    private void addCommandForGame(String cmd) {
+        MsgManager.INSTANCE.addReceivedMessage(new Message(cmd.length() + cmd));
+    }
 }

@@ -1,31 +1,30 @@
 package cz.zcu.krausp.ups.gui;
 
+import cz.zcu.krausp.ups.lobby.LobbyController;
 import cz.zcu.krausp.ups.net.CmdManager;
-import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
 
-public class Lobby extends Application {
+public class Lobby extends BorderPane {
 
-    private TextField nameTF = new TextField();
-    private Label messageLbl = new Label();
-    private Button joinBtn = new Button("Join game");
-    private Button closeBtn = new Button("Close");
+    private final TextField nameTF = new TextField();
+    private final Label messageLbl = new Label();
+    private final Button joinBtn = new Button("Join game");
+    private final Button closeBtn = new Button("Close");
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Lobby");
-        Scene scene = new Scene(createRoot());
-        primaryStage.setScene(scene);
-        primaryStage.show();
+    private final LobbyController controller;
+
+    public Lobby(LobbyController controller) {
+        this.controller = controller;
+
+        this.setCenter(createTop());
+        this.setBottom(createBottom());
+        this.setPadding(Constants.DEF_INSETS);
 
         setEventHandlers();
     }
@@ -35,18 +34,15 @@ public class Lobby extends Application {
     }
 
     private void setEventHandlers() {
-        this.joinBtn.setOnAction(event -> CmdManager.INSTANCE.login(this.nameTF.getText()));
-        //this.joinBtn.setOnAction(event -> CmdManager.INSTANCE.);
-    }
+        this.joinBtn.setOnAction(event -> {
+            //CmdManager.INSTANCE.login(this.nameTF.getText());
+            SceneLib.switchToGame();          // TODO Change ...obviously
+        });
 
-    private Parent createRoot() {
-        BorderPane root = new BorderPane();
+        this.closeBtn.setOnAction(event -> {
+            CmdManager.INSTANCE.exitLobby();
 
-        root.setCenter(createTop());
-        root.setBottom(createBottom());
-        root.setPadding(Constants.DEF_INSETS);
-
-        return root;
+        });
     }
 
     private Node createTop() {
@@ -68,6 +64,7 @@ public class Lobby extends Application {
         HBox hBox = new HBox();
 
         hBox.getChildren().addAll(this.closeBtn);
+        hBox.setAlignment(Pos.CENTER_LEFT);
 
         return hBox;
     }

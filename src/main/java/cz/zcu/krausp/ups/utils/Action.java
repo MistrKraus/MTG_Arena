@@ -7,7 +7,8 @@ public enum Action {
     CANCELDEFENCE ("CancelDefence"),
     NEXT ("Next"),
     AGAIN ("Again"),
-    LEAVE ("Leave");
+    LEAVE ("Leave"),
+    SURRENDER("Surrender");
 
     private final String label;
 

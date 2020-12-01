@@ -87,12 +87,12 @@ public class Client {
         this.pingPong.schedule(new TimerTask() {
             @Override
             public void run() {
-                if (MsgManager.INSTANCE.peekReceivedMessage(State.PING) == null) {
+                Message msg = MsgManager.INSTANCE.popReceivedMessage(State.PING);
+                if (msg == null) {
                     return;
                 }
 
-                String[] cmd = MsgManager.INSTANCE.popReceivedMessage(State.PING).getCmd();
-
+                String[] cmd = msg.getCmd();
                 if (cmd == null || cmd.length < 1) {
                     // TODO invalid cmd counter
                     return;

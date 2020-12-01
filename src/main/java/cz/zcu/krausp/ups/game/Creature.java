@@ -1,47 +1,39 @@
 package cz.zcu.krausp.ups.game;
 
-import javafx.scene.canvas.GraphicsContext;
-
 public class Creature extends Permanent {
-    private PowerToughness powerToughness;
-    private Mana manaCost;
+    private final int power;
+    private final int toughness;
+    private final int manaCost;
 
     private final static String CARD_TYPE = "Creature";
 
-    public Creature(int id, int power, int toughness, int colorless)
+    public Creature(int id, int power, int toughness, int manaCost)
     {
-        this(id, new PowerToughness(power, toughness), new Mana(colorless));
+        this(id, CARD_TYPE + "#" + id, power, toughness, manaCost);
     }
 
-    public Creature(int id, String name, int power, int toughness, int colorless)
-    {
-        this(id, name, new PowerToughness(power, toughness), new Mana(colorless));
-    }
-
-    public Creature(int id, PowerToughness powerToughness, Mana manaCost)
-    {
-        this(id, CARD_TYPE + "#" + id, powerToughness, manaCost);
-    }
-
-    public Creature(int id, String name, PowerToughness powerToughness, Mana manaCost)
+    public Creature(int id, String name, int power, int toughness, int manaCost)
     {
         super(id, name);
 
-        this.powerToughness = powerToughness;
+        this.power = power;
+        this.toughness = toughness;
         this.manaCost = manaCost;
     }
 
-    public PowerToughness getPowerToughness() {
-        return powerToughness;
+    public int getPower() {
+        return this.power;
     }
 
-    public Mana getManaCost() {
-        return manaCost;
+    public int getToughness() {
+        return this.toughness;
     }
 
+    public int getManaCost() {
+        return this.manaCost;
+    }
 
-    @Override
-    public void draw(GraphicsContext g, double scaleX, double scaleY) {
-
+    public static String getCardType() {
+        return CARD_TYPE;
     }
 }

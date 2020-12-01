@@ -4,9 +4,12 @@ public enum GamePhase {
     BEGGINING ("Beginning"),
     FIRSTMAIN("FirstMain"),
     COMBAT ("Combat"),
+    ATTACK("Attack"),
+    DEFEND("Defend"),
     SECONDMAIN("SecondMain"),
     ENDING ("End"),
-    SKIP ("Skip");
+    SKIP ("Skip"),
+    UNKNOWN ("Unknown");
 
     public final String label;
 

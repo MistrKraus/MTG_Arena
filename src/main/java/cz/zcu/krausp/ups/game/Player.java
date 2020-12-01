@@ -1,19 +1,28 @@
 package cz.zcu.krausp.ups.game;
 
-import cz.zcu.krausp.ups.zones.Library;
+import java.util.HashMap;
 
-public class Player {
+public class Player extends AbstractPlayer {
 
-    private Library library;
+    private HashMap<Integer, Card> hand = new HashMap<>();
 
-    private final String name;
-    private final int id;
-
-    public Player(String name, int id)
-    {
-        this.name = name;
-        this.id = id;
+    public Player(String name, int id) {
+        super(name, id);
     }
 
+    public Player(String name, int id, int hp) {
+        super(name, id, hp);
+    }
 
+    public HashMap<Integer, Card> getHand() {
+        return this.hand;
+    }
+
+    public void addToHand(Card card) {
+        this.hand.put(card.getId(), card);
+    }
+
+    public void setHand(HashMap<Integer, Card> hand) {
+        this.hand = hand;
+    }
 }

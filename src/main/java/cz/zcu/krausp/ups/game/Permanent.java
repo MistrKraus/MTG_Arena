@@ -2,9 +2,9 @@ package cz.zcu.krausp.ups.game;
 
 public abstract class Permanent extends Card {
 
-    protected boolean tapped;
+    private boolean tapped;
 
-    protected Permanent(int id, String name) {
+    Permanent(int id, String name) {
         super(id, name);
     }
 
@@ -13,10 +13,8 @@ public abstract class Permanent extends Card {
      *
      * @return if tapping permanent was successful
      */
-    public boolean tapCard()
-    {
-        if (tapped)
-        {
+    public boolean tapCard() {
+        if (this.tapped) {
             return false;
         }
 
@@ -29,10 +27,8 @@ public abstract class Permanent extends Card {
      *
      * @return if untapping permanent was successful
      */
-    public boolean untapCard()
-    {
-        if (!tapped)
-        {
+    public boolean untapCard() {
+        if (!tapped) {
             return false;
         }
 
